@@ -1,0 +1,69 @@
+ports:
+  - protocol: "HTTPS"
+    targetProtocol: "HTTP"
+    listeningPort: "443"
+    targetPort: "33267"
+    targetIP: "172.17.0.1"
+    public: true
+    path: "/"
+    isAuth: false
+  - protocol: "HTTPS"
+    targetProtocol: "HTTP"
+    listeningPort: "8504"
+    targetPort: "55089"
+    targetIP: "172.17.0.1"
+    public: true
+    path: "/"
+    isAuth: false
+  - protocol: "HTTPS"
+    targetProtocol: "HTTP"
+    listeningPort: "37927"
+    targetPort: "51032"
+    targetIP: "172.17.0.1"
+    public: true
+    path: "/"
+    isAuth: false
+  - protocol: "TCP"
+    targetProtocol: "TCP"
+    listeningPort: "42494"
+    targetIP: "172.17.0.1"
+    targetPort: "27115"
+    public: true
+
+environments:
+  - key: SOFTWARE_VERSION_TAG
+    value: "latest"
+  - key: ADMIN_PASSWORD
+    value: "random_password"
+  - key: "ADMIN_EMAIL"
+    value: "[EMAIL]"
+  - key: "DOMAIN"
+    value: "[CI_CD_DOMAIN]"
+  - key: "POSTGRES_USER"
+    value: "postgres"
+  - key: POSTGRES_PASSWORD
+    value: "random_password"
+
+config:
+  runTime: "dockerCompose"
+  version: ""
+  framework: ""
+  buildCommand: "docker-compose build"
+  buildDir: "/"
+  runCommand: "docker-compose up -d"
+  icon: ""
+  screenshot: "logto.jpg"
+lifeCycleConfig:
+  preInstallCommand: "./scripts/preInstall.sh"
+  postInstallCommand: "./scripts/postInstall.sh"
+  preBackupCommand: "./scripts/preBackup.sh"
+  postBackupCommand: "./scripts/postBackup.sh"
+  preRestoreCommand: "./scripts/preRestore.sh"
+  postRestoreCommand: "./scripts/postRestore.sh"
+webUI:
+  - url: "https://[CI_CD_DOMAIN]:8504"
+    label: "Logto Admin"
+  - url: "https://[CI_CD_DOMAIN]:37927"
+    label: "PgAdmin"
+    login: "[ADMIN_EMAIL]"
+    password: "[ADMIN_PASSWORD]"
